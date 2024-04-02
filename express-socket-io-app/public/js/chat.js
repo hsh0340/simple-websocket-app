@@ -6,6 +6,27 @@ const room = query.get('room');
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML;
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const messages = document.querySelector('#messages');
+const messageForm = document.querySelector('#message-form');
+const messageFormInput = messageForm.querySelector('input');
+const messageFormButton = messageForm.querySelector('button');
+
+messageForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    messageFormButton.setAttribute('disabled', 'disabled');
+
+    const message = e.target.elements.message.value;
+
+    socket.emit('sendMessage', message, (error) => {
+        messageFormButton.removeAttribute('disabled');
+        messageFormInput.value = '';
+        messageFormInput.focus();
+
+        if (error) {
+            return console.log(error);
+        }
+    })
+})
 
 socket.emit('join', { username, room }, (error) => {
     if (error) {
