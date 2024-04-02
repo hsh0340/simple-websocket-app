@@ -31,6 +31,18 @@
       {{/users}}
     </ul>
   </script>
+
+  <script id="message-template" type="text/html">
+    <div class="message">
+      <p>
+        <span class="message_name">{{username}}</span>
+        <span class="message_meta">{{createdAt}}</span>
+      </p>
+      <p>{{message}}</p>
+    </div>
+
+  </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="./js/chat.js"></script>
