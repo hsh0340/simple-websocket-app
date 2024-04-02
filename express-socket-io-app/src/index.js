@@ -1,3 +1,5 @@
+const { addUser } = require("./utils/user");
+
 const express = require('express');
 const app = express();
 
@@ -10,18 +12,26 @@ const io = new Server(server);
 
 const path = require('path');
 
+
 const publicDirectoryPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirectoryPath));
 
 const PORT = 8000;
 
 io.on('connection', (socket) => {
-    console.log(socket);
-    socket.on('join', () => {});
-    socket.on('sendMessage', () => {});
-    socket.on('disconnect', () => {});
+  socket.on('join', (options, callback) => {
+    const { error, user } = addUser({ id: socket.id, ...options});
+
+    if (error) {
+      return callback(error);
+    }
+
+    socket.join(user.room);
+  });
+  socket.on('sendMessage', () => {});
+  socket.on('disconnect', () => {});
 })
 
 server.listen(PORT, () => {
-    console.log(`Server is up on port ${PORT}`);
+  console.log(`Server is up on port ${PORT}`);
 })
