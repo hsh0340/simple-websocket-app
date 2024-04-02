@@ -15,7 +15,7 @@ app.use(express.static(publicDirectoryPath));
 
 const PORT = 8000;
 
-io.on('connection', () => {
+io.on('connection', (socket) => {
     console.log(socket);
     socket.on('join', () => {});
     socket.on('sendMessage', () => {});
