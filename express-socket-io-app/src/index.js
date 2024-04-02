@@ -1,4 +1,5 @@
 const { addUser } = require("./utils/user");
+const { generateMessage } = require("./utils/messages");
 
 const express = require('express');
 const app = express();
@@ -11,7 +12,6 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const path = require('path');
-
 
 const publicDirectoryPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirectoryPath));
@@ -27,6 +27,9 @@ io.on('connection', (socket) => {
     }
 
     socket.join(user.room);
+
+    socket.emit('message', generateMessage('Admin', `${user.room} 방에 오신 걸 환영합니다.`));
+    socket.broadcast.to(user.room).emit('message', generateMessage(user.username), `${user.username}가 방에 참여했습니다.`)
   });
   socket.on('sendMessage', () => {});
   socket.on('disconnect', () => {});
