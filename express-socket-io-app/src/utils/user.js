@@ -1,6 +1,6 @@
 const users = [];
 
-const addUser = ({id, username, room}) => {
+const addUser = ({ id, username, room }) => {
     username = username.trim();
     room = room.trim();
 
@@ -22,5 +22,9 @@ const addUser = ({id, username, room}) => {
 
     const user = { id, username, room };
     users.push(user);
-    return user;
+    return { user };
+}
+
+module.exports = {
+    addUser,
 }
